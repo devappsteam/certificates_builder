@@ -1,83 +1,93 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 
 [x-cloak] {
-  display: none !important;
+    display: none !important;
 }
 
-/* Base de app */
-html,
-body,
-#app {
-  height: 100%;
+@layer utilities {
+
+    .bg-checkerboard {
+        background-color: #f8fafc;
+        background-image: linear-gradient(45deg, #f1f5f9 25%, transparent 25%), linear-gradient(-45deg, #f1f5f9 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f1f5f9 75%), linear-gradient(-45deg, transparent 75%, #f1f5f9 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+
+    .artboard-outline-bleed {
+        outline: 2px dashed rgba(245, 158, 11, 0.8);
+        outline-offset: 10px;
+    }
+
+    .artboard-outline-safe {
+        outline: 2px dashed rgba(34, 197, 94, 0.8);
+        outline-offset: -16px;
+    }
+
+    .crop-mark {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-color: #0f172a;
+    }
+
+    .crop-mark.br {
+        right: -14px;
+        bottom: -14px;
+        border-right: 2px solid;
+        border-bottom: 2px solid;
+    }
+
+    .crop-mark.bl {
+        left: -14px;
+        bottom: -14px;
+        border-left: 2px solid;
+        border-bottom: 2px solid;
+    }
+
+    .crop-mark.tr {
+        right: -14px;
+        top: -14px;
+        border-right: 2px solid;
+        border-top: 2px solid;
+    }
+
+    .crop-mark.tl {
+        left: -14px;
+        top: -14px;
+        border-left: 2px solid;
+        border-top: 2px solid;
+    }
+
+
+    .artboard-grid {
+        background-image:
+            repeating-linear-gradient(90deg, rgba(99, 102, 241, 0.15) 0px, rgba(99, 102, 241, 0.15) 1px, transparent 1px, transparent 8px),
+            repeating-linear-gradient(rgba(99, 102, 241, 0.15) 0px, rgba(99, 102, 241, 0.15) 1px, transparent 1px, transparent 8px),
+            repeating-linear-gradient(90deg, transparent 0px, transparent 39px, rgba(99, 102, 241, 0.35) 39px, rgba(99, 102, 241, 0.35) 40px),
+            repeating-linear-gradient(transparent 0px, transparent 39px, rgba(99, 102, 241, 0.35) 39px, rgba(99, 102, 241, 0.35) 40px);
+        background-size: 8px 8px, 8px 8px, 40px 40px, 40px 40px;
+        background-position: calc(50% - 20px) calc(50% - 20px);
+        mix-blend-mode: multiply;
+        z-index: 10;
+    }
 }
 
-body {
-  @apply bg-slate-100 text-slate-800;
-  font-smooth: always;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.element-wrapper.dragging {
+    z-index: 9999 !important;
+    box-shadow: 0 0 0 2px #6180e4;
+    transition: none !important;
 }
 
-/* Checkerboard sutil (mesa) */
-.bg-checkerboard {
-  background-color: #f8fafc;
-  background-image:
-    linear-gradient(45deg, #f1f5f9 25%, transparent 25%),
-    linear-gradient(-45deg, #f1f5f9 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #f1f5f9 75%),
-    linear-gradient(-45deg, transparent 75%, #f1f5f9 75%);
-  background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+.element-wrapper {
+    transition: all 0.1s ease;
 }
 
-/* Crop marks simuladas no preview do artboard */
-.crop-mark {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-color: #0f172a;
+.element {
+    user-select: none;
+    pointer-events: auto;
 }
 
-.crop-mark.tl {
-  left: -14px;
-  top: -14px;
-  border-left: 2px solid;
-  border-top: 2px solid;
-}
-
-.crop-mark.tr {
-  right: -14px;
-  top: -14px;
-  border-right: 2px solid;
-  border-top: 2px solid;
-}
-
-.crop-mark.bl {
-  left: -14px;
-  bottom: -14px;
-  border-left: 2px solid;
-  border-bottom: 2px solid;
-}
-
-.crop-mark.br {
-  right: -14px;
-  bottom: -14px;
-  border-right: 2px solid;
-  border-bottom: 2px solid;
-}
-
-/* Safe area / bleed outlines */
-.artboard-outline-safe {
-  outline: 2px dashed rgba(34, 197, 94, 0.8);
-  /* verde */
-  outline-offset: -10px;
-}
-
-.artboard-outline-bleed {
-  outline: 2px dashed rgba(245, 158, 11, 0.8);
-  /* amber */
-  outline-offset: 10px;
+.element[contenteditable="true"] {
+    user-select: text;
 }

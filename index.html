@@ -1,15 +1,354 @@
-<!doctype html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Certificate Builder</title>
-    <!-- Google Fonts para preview -->
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=PT+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="module" src="/src/main.js" defer></script>
+</head>
+
+<body>
+  <div id="app" class="h-full" x-data="artboard">
+    <div class="flex flex-col h-screen">
+      <header class="h-14 bg-white border-b border-slate-200 px-4 flex items-center justify-between shadow-sm">
+        <div class="flex items-center gap-2">
+          <img src="https://devapps.com.br/assets/images/logo.png" alt="logo" class="h-8 brightness-0">
+        </div>
+        <div class="text-slate-600">Certificado 01</div>
+        <div class="flex items-center gap-2">
+          <button
+            class="px-3 py-1.5 rounded border border-slate-300 text-slate-700 hover:bg-slate-50">Visualizar</button>
+          <button class="px-3 py-1.5 rounded bg-indigo-600 text-white hover:bg-indigo-700">Salvar</button>
+          <button class="p-2 hover:bg-slate-100 rounded" title="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" aria-hidden="true" data-slot="icon" class="h-6 w-6 text-slate-700">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+      <!-- MAIN -->
+      <div class="flex flex-1 overflow-hidden">
+        <div class="relative flex">
+          <aside class="w-20 bg-slate-900 text-slate-200 h-full flex flex-col shadow-panel z-20">
+            <nav class="my-6">
+              <div class="flex w-full space-y-5 items-center flex-col">
+                <button @click="toggleMenu('elements')"
+                  class="flex flex-col items-center gap-3 px-3 py-2 cursor-pointer w-full"
+                  :class="{ 'bg-slate-800 border-l-4 border-blue-600': activeMenu === 'elements' }">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+                  </svg>
+                  <span class="text-xs">Elementos</span>
+                </button>
+                <button @click="toggleMenu('templates')"
+                  class="flex flex-col items-center gap-3 px-3 py-2 cursor-pointer w-full"
+                  :class="{ 'bg-slate-800 border-l-4 border-blue-600': activeMenu === 'templates' }">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z">
+                    </path>
+                  </svg>
+                  <span class="text-xs">Modelos</span>
+                </button>
+                <button @click="toggleMenu('media')"
+                  class="flex flex-col items-center gap-3 px-3 py-2 cursor-pointer w-full"
+                  :class="{ 'bg-slate-800 border-l-4 border-blue-600': activeMenu === 'media' }">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z">
+                    </path>
+                  </svg>
+                  <span class="text-xs">Mídia</span>
+                </button>
+                <button @click="toggleMenu('library')"
+                  class="flex flex-col items-center gap-3 px-3 py-2 cursor-pointer w-full"
+                  :class="{ 'bg-slate-800 border-l-4 border-blue-600': activeMenu === 'library' }">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25">
+                    </path>
+                  </svg>
+                  <span class="text-xs">Biblioteca</span>
+                </button>
+                <button @click="toggleMenu('background')"
+                  class="flex flex-col items-center gap-3 px-3 py-2 cursor-pointer w-full"
+                  :class="{ 'bg-slate-800 border-l-4 border-blue-600': activeMenu === 'background' }">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M4.098 19.902a3.75 3.75 0 0 0 5.304 0l6.401-6.402M6.75 21A3.75 3.75 0 0 1 3 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 0 0 3.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008Z">
+                    </path>
+                  </svg>
+                  <span class="text-xs">Background</span>
+                </button>
+              </div>
+            </nav>
+          </aside>
+          <!-- Painel Lateral -->
+          <div
+            class="absolute w-72 bg-slate-800 text-slate-200 h-full flex flex-col z-10 p-4 transition-all duration-500"
+            :class="activeMenu ? 'left-20' : '-left-72'">
+
+            <template x-if="activeMenu === 'elements'">
+              <div>
+                <h2 class="text-lg font-bold mb-4">Elementos</h2>
+                <ul class="grid grid-cols-2 gap-2">
+                  <li class="flex flex-col items-center justify-center gap-2 px-3 py-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 h-28 border border-slate-600" @click="addElement('text')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7 text-white">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"></path>
+                    </svg>
+                    <span class="text-sm">Texto</span>
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 px-3 py-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 h-28 border border-slate-600" @click="addElement('course')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7 text-white">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"></path>
+                    </svg>
+                    <span class="text-sm">Curso</span>
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 px-3 py-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 h-28 border border-slate-600" @click="addElement('student')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7 text-white">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path>
+                    </svg>
+                    <span class="text-sm">Estudante</span>
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 px-3 py-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 h-28 border border-slate-600" @click="addElement('instructor')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7 text-white">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"></path>
+                    </svg>
+                    <span class="text-sm">Instrutor</span>
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 px-3 py-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 h-28 border border-slate-600" @click="addElement('signature')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7 text-white">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"></path>
+                    </svg>
+                    <span class="text-sm">Assinatura</span>
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 px-3 py-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 h-28 border border-slate-600" @click="addElement('verification')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7 text-white">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"></path>
+                    </svg>
+                    <span class="text-sm">Verificação ID</span>
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 px-3 py-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 h-28 border border-slate-600" @click="addElement('qrcode')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7 text-white">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h.75v.75h-.75v-.75ZM13.5 19.5h.75v.75h-.75v-.75ZM19.5 13.5h.75v.75h-.75v-.75ZM19.5 19.5h.75v.75h-.75v-.75ZM16.5 16.5h.75v.75h-.75v-.75Z"></path>
+                    </svg>
+                    <span class="text-sm">QR</span>
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 px-3 py-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 h-28 border border-slate-600" @click="addElement('dateTime')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7 text-white">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"></path>
+                    </svg>
+                    <span class="text-sm">Data e Hora</span>
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 px-3 py-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 h-28 border border-slate-600" @click="addElement('duration')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7 text-white">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
+                    </svg>
+                    <span class="text-sm">Duração</span>
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 px-3 py-2 bg-slate-700 rounded cursor-pointer hover:bg-slate-600 h-28 border border-slate-600" @click="addElement('grade')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="size-7 text-white">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5"></path>
+                    </svg>
+                    <span class="text-sm">Grade</span>
+                  </li>
+                </ul>
+              </div>
+            </template>
+
+            <template x-if="activeMenu === 'templates'">
+              <div>
+                <h2 class="text-lg font-bold">Modelos</h2>
+                <p class="text-sm mt-2">Lista de modelos disponíveis…</p>
+              </div>
+            </template>
+
+            <template x-if="activeMenu === 'media'">
+              <div>
+                <h2 class="text-lg font-bold">Mídia</h2>
+                <p class="text-sm mt-2">Upload ou escolha arquivos…</p>
+              </div>
+            </template>
+
+            <template x-if="activeMenu === 'library'">
+              <div>
+                <h2 class="text-lg font-bold">Biblioteca</h2>
+                <p class="text-sm mt-2">Itens salvos e reutilizáveis…</p>
+              </div>
+            </template>
+
+            <template x-if="activeMenu === 'background'">
+              <div>
+                <h2 class="text-lg font-bold">Background</h2>
+                <p class="text-sm mt-2">Escolha um plano de fundo…</p>
+              </div>
+            </template>
+
+          </div>
+        </div>
+
+        <main class="flex-1 overflow-hidden bg-slate-50">
+          <div class="relative w-full h-full overflow-auto bg-checkerboard">
+            <div class="w-full h-full flex items-center justify-center p-5 transition-all duration-500"
+              :class="activeMenu ? 'ps-72': ''">
+              <!-- ARTBOARD-->
+              <div class="relative w-[1123px] h-[794px] bg-[url(https://api.tutorlms.com/wp-json/restapi/v1/certificate-builder-images/backdrops/horizontal/backdrops-template-1.jpg)] bg-[length:100%_100%] bg-no-repeat origin-top-center shadow-lg" :style="zoomStyle" data-artboard @contextmenu="preventContextMenu($event)">
+
+                <!-- AREA DE SEGURANCA -->
+                <div class="absolute inset-0 pointer-events-none artboard-outline-bleed"
+                  :class="{ 'hidden': !showBleed }"></div>
+
+                <!-- AREA DE SEGURANCA INTERNA -->
+                <div class="absolute inset-6 pointer-events-none artboard-outline-safe"
+                  :class="{ 'hidden': !showSafe }"></div>
+
+                <!-- MARCADORES -->
+                <div class="crop-mark tl" :class="{ 'hidden': !showBleed }"></div>
+                <div class="crop-mark tr" :class="{ 'hidden': !showBleed }"></div>
+                <div class="crop-mark bl" :class="{ 'hidden': !showBleed }"></div>
+                <div class="crop-mark br" :class="{ 'hidden': !showBleed }"></div>
+
+                <!-- GRID -->
+                <div class="absolute inset-0 pointer-events-none artboard-grid" :class="{ 'hidden': !showGrid }"></div>
+
+                <!-- ELEMENTOS -->
+                <template x-for="(el, i) in elements" :key="el.id">
+                  <div class="element-wrapper relative z-[999] transition-all duration-200" 
+                       :class="{
+                         'dragging': dragging === i,
+                         'cursor-move': !el.locked,
+                         'cursor-grabbing': dragging === i,
+                         'cursor-not-allowed': el.locked,
+                         'ring-2 ring-blue-500': selectedElement === i && !el.locked,
+                         'ring-2 ring-gray-500': selectedElement === i && el.locked
+                       }"
+                       :style="el.style" 
+                       :data-element-id="el.id" 
+                       @click="selectElement(i, $event)"
+                       @mousedown="onMouseDown(i, $event)"
+                       @contextmenu="preventContextMenu($event)"
+                       @keydown="handleKeyDown(i, $event)">
+                    <!-- Container do elemento -->
+                    <div class="element focus:outline-none focus:ring-0 focus:border-none" 
+                         :contenteditable="el.editable && !el.locked" 
+                         :data-type="el.type" 
+                         x-text="el.label" 
+                         @input="updateContent(i, $event)"
+                         @contextmenu="preventContextMenu($event)"
+                         :class="{ 'cursor-not-allowed': el.locked, 'cursor-move': !el.locked }">
+                    </div>
+
+                    <!-- Borda de seleção e pontos de redimensionamento -->
+                    <div class="absolute inset-0 border-2 border-dashed border-blue-500 pointer-events-none opacity-0 transition-opacity duration-200"
+                         :class="{ 'opacity-100': selectedElement === i && !isDragging }">
+                      <!-- Pontos de redimensionamento -->
+                      <template x-if="!el.locked">
+                        <div class="pointer-events-auto">
+                          <div class="absolute -top-1 -left-1 w-3 h-3 bg-white border-2 border-blue-500 cursor-nw-resize"
+                               @mousedown="startResizing('nw', $event, i)"></div>
+                          <div class="absolute -top-1 -right-1 w-3 h-3 bg-white border-2 border-blue-500 cursor-ne-resize"
+                               @mousedown="startResizing('ne', $event, i)"></div>
+                          <div class="absolute -bottom-1 -left-1 w-3 h-3 bg-white border-2 border-blue-500 cursor-sw-resize"
+                               @mousedown="startResizing('sw', $event, i)"></div>
+                          <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-white border-2 border-blue-500 cursor-se-resize"
+                               @mousedown="startResizing('se', $event, i)"></div>
+                          <div class="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-2 border-blue-500 cursor-n-resize"
+                               @mousedown="startResizing('n', $event, i)"></div>
+                          <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-2 border-blue-500 cursor-s-resize"
+                               @mousedown="startResizing('s', $event, i)"></div>
+                          <div class="absolute top-1/2 -translate-y-1/2 -left-1 w-3 h-3 bg-white border-2 border-blue-500 cursor-w-resize"
+                               @mousedown="startResizing('w', $event, i)"></div>
+                          <div class="absolute top-1/2 -translate-y-1/2 -right-1 w-3 h-3 bg-white border-2 border-blue-500 cursor-e-resize"
+                               @mousedown="startResizing('e', $event, i)"></div>
+                        </div>
+                      </template>
+                      
+                      <!-- Botões de ação -->
+                                            <!-- Botões de ação -->
+                      <div class="absolute -top-8 -right-1 flex gap-2 opacity-0 transition-opacity duration-200 pointer-events-auto"
+                           :class="{ 'opacity-100': selectedElement === i }">
+                        <!-- Botão de edição -->
+                        <button class="bg-white p-1.5 rounded-lg shadow border border-slate-200 hover:bg-slate-50" title="Editar">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-slate-600">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"></path>
+                          </svg>
+                        </button>
+                        <!-- Botão de bloqueio/desbloqueio -->
+                        <button class="bg-white p-1.5 rounded-lg shadow border border-slate-200 hover:bg-slate-50" 
+                                title="Bloquear/Desbloquear" 
+                                @click.stop="toggleLock(i)">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+                               stroke="currentColor" class="w-4 h-4" :class="{ 'text-blue-500': el.locked }">
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                  x-show="!el.locked"
+                                  d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                  x-show="el.locked"
+                                  d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z">
+                            </path>
+                          </svg>
+                        </button>
+                        <!-- Botão de excluir -->
+                        <button class="bg-white p-1.5 rounded-lg shadow border border-slate-200 hover:bg-red-50 hover:border-red-200 hover:text-red-500" 
+                                title="Excluir" 
+                                @click.stop="deleteElement(i)">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
+                               stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" 
+                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0">
+                            </path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+
+              </div>
+              <!-- FIM ARTBOARD-->
+            </div>
+          </div>
+        </main>
+
+      </div>
+      <!-- FOOTER -->
+      <footer
+        class="h-10 bg-white border-t border-slate-200 px-3 flex items-center justify-between text-sm text-gray-600">
+        <div class="flex items-center gap-3">
+          <div>Página: Frente</div>
+          <div>Tamanho: 1123px × 794px (A4 landscape)</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="px-2 py-1 border border-gray-400 rounded hover:bg-slate-50" @click="decreaseZoom">-</button>
+          <div class="w-16 text-center" x-text="`${zoom}%`"></div>
+          <button class="px-2 py-1 border border-gray-400 rounded hover:bg-slate-50" @click="increaseZoom">+</button>
+          <button class="px-2 py-1 border border-gray-400 rounded hover:bg-slate-50 cursor-pointer"
+            @click="fitToScreen">Ajustar</button>
+          <div class="ml-4">Grade</div>
+          <label class="inline-flex items-center gap-1">
+            <input type="checkbox" class="mr-1 cursor-pointer" x-model="showGrid">
+          </label>
+          <div class="ml-4">Sangria</div>
+          <label class="inline-flex items-center gap-1">
+            <input type="checkbox" class="mr-1 cursor-pointer" x-model="showBleed">
+          </label>
+          <div class="ml-4">Segurança</div>
+          <label class="inline-flex items-center gap-1">
+            <input type="checkbox" class="mr-1 cursor-pointer" x-model="showSafe">
+          </label>
+        </div>
+      </footer>
+    </div>
+  </div>
+</body>
+
 </html>

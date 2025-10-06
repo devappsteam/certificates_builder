@@ -69,16 +69,59 @@ document.addEventListener('alpine:init', () => {
 
     elements: [],
 
+    randomBgColors: [],
+    customBgColor: '#1d293d',
+
+    addBackgroundClass(className) {
+      this.artboard.style.backgroundImage = 'none';
+      this.artboard.style.backgroundColor = '';
+      const currentClasses = Array.from(this.artboard.classList);
+      const filteredClasses = currentClasses.filter(c => !c.startsWith('bg-'));
+      this.artboard.className = [...filteredClasses, className].join(' ');
+    },
+
+    setCustomBackgroundColor(hexColor) {
+      this.artboard.style.backgroundImage = 'none';
+      const currentClasses = Array.from(this.artboard.classList);
+      const filteredClasses = currentClasses.filter(c => !c.startsWith('bg-'));
+      this.artboard.className = filteredClasses.join(' ');
+      this.artboard.style.backgroundColor = hexColor;
+    },
+
+    generateRandomBgColors() {
+
+      const colors = [
+        'slate', 'gray', 'zinc', 'neutral', 'stone',
+        'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal',
+        'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'
+      ];
+
+      const shades = ['300', '400', '500', '600', '700'];
+
+      const generated = new Set();
+      const numColors = 8;
+
+      while (generated.size < numColors) {
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        const randomShade = shades[Math.floor(Math.random() * shades.length)];
+        const colorClass = `bg-${randomColor}-${randomShade}`;
+        generated.add(colorClass);
+      }
+
+      this.randomBgColors = Array.from(generated);
+    },
+
+
     decreaseZoom() {
-      if (this.zoom > 25) {
-        this.zoom -= 25;
+      if (this.zoom > 10) {
+        this.zoom -= 10;
       }
       this.setZoomStyle();
     },
 
     increaseZoom() {
       if (this.zoom < 200) {
-        this.zoom += 25;
+        this.zoom += 10;
       }
       this.setZoomStyle();
     },
@@ -114,6 +157,8 @@ document.addEventListener('alpine:init', () => {
     addBackground(bgPath) {
       if (bgPath) {
         this.artboard.style.backgroundImage = `url('/images/backgrounds/${bgPath}.jpg')`;
+        this.artboard.style.backgroundRepeat = `no-repeat`;
+        this.artboard.style.backgroundSize = `100% 100%`;
       }
     },
 
@@ -434,6 +479,7 @@ document.addEventListener('alpine:init', () => {
       console.log('Alpine component initialized');
 
       //this.loadGoogleFonts();
+      this.generateRandomBgColors();
 
       // Limpar seleção quando clicar fora
       document.addEventListener('click', (e) => {

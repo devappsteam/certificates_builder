@@ -11,6 +11,9 @@ importers:
       alpinejs:
         specifier: ^3.15.0
         version: 3.15.0
+      overlayscrollbars:
+        specifier: ^2.12.0
+        version: 2.12.0
     devDependencies:
       '@tailwindcss/vite':
         specifier: ^4.1.14
@@ -530,6 +533,9 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  overlayscrollbars@2.12.0:
+    resolution: {integrity: sha512-mWJ5MOkcZ/ljHwfLw8+bN0V9ziGCoNoqULcp994j5DTGNQvnkWKWkA7rnO29Kyew5AoHxUnJ4Ndqfcl0HSQjXg==}
+
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
@@ -966,6 +972,8 @@ snapshots:
       minipass: 7.1.2
 
   nanoid@3.3.11: {}
+
+  overlayscrollbars@2.12.0: {}
 
   picocolors@1.1.1: {}
 

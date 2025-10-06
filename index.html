@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!DOCTYPE html >
+<html lang="pt-br" data-overlayscrollbars-initialize>
 
 <head>
   <meta charset="UTF-8">
@@ -186,9 +186,70 @@
             </template>
 
             <template x-if="activeMenu === 'background'">
-              <div>
-                <h2 class="text-lg font-bold">Background</h2>
-                <p class="text-sm mt-2">Escolha um plano de fundo…</p>
+              <div class="overflow-y-auto h-full" data-overlayscrollbars-initialize>
+                <h2 class="text-lg font-bold mb-4">Background</h2>
+                <ul class="grid grid-cols-2 gap-2">
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-1')">
+                    <img src="/images/backgrounds/bg-1.jpg" alt="Background 1" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-2')">
+                    <img src="/images/backgrounds/bg-2.jpg" alt="Background 2" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-3')">
+                    <img src="/images/backgrounds/bg-3.jpg" alt="Background 3" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-4')">
+                    <img src="/images/backgrounds/bg-4.jpg" alt="Background 4" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-5')">
+                    <img src="/images/backgrounds/bg-5.jpg" alt="Background 5" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-6')">
+                    <img src="/images/backgrounds/bg-6.jpg" alt="Background 6" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-7')">
+                    <img src="/images/backgrounds/bg-7.jpg" alt="Background 7" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-8')">
+                    <img src="/images/backgrounds/bg-8.jpg" alt="Background 8" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-9')">
+                    <img src="/images/backgrounds/bg-9.jpg" alt="Background 9" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-10')">
+                    <img src="/images/backgrounds/bg-10.jpg" alt="Background 10" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-11')">
+                    <img src="/images/backgrounds/bg-11.jpg" alt="Background 11" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-12')">
+                    <img src="/images/backgrounds/bg-12.jpg" alt="Background 12" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-13')">
+                    <img src="/images/backgrounds/bg-13.jpg" alt="Background 13" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-14')">
+                    <img src="/images/backgrounds/bg-14.jpg" alt="Background 14" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-15')">
+                    <img src="/images/backgrounds/bg-15.jpg" alt="Background 15" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-16')">
+                    <img src="/images/backgrounds/bg-16.jpg" alt="Background 16" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-17')">
+                    <img src="/images/backgrounds/bg-17.jpg" alt="Background 17" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-18')">
+                    <img src="/images/backgrounds/bg-18.jpg" alt="Background 18" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-19')">
+                    <img src="/images/backgrounds/bg-19.jpg" alt="Background 19" class="w-full h-full object-cover">
+                  </li>
+                  <li class="flex flex-col items-center justify-center gap-2 rounded cursor-pointer h-28" @click="addBackground('bg-20')">
+                    <img src="/images/backgrounds/bg-20.jpg" alt="Background 20" class="w-full h-full object-cover">
+                  </li>
+                </ul>
               </div>
             </template>
 
@@ -200,7 +261,7 @@
             <div class="w-full h-full flex items-center justify-center p-5 transition-all duration-500"
               :class="activeMenu ? 'ps-72': ''">
               <!-- ARTBOARD-->
-              <div class="relative w-[1123px] h-[794px] bg-[url(https://api.tutorlms.com/wp-json/restapi/v1/certificate-builder-images/backdrops/horizontal/backdrops-template-1.jpg)] bg-[length:100%_100%] bg-no-repeat origin-top-center shadow-lg" :style="zoomStyle" data-artboard @contextmenu="preventContextMenu($event)">
+              <div class="relative w-[1123px] h-[794px] bg-white bg-[length:100%_100%] bg-no-repeat origin-top-center shadow-lg" data-artboard @contextmenu="preventContextMenu($event)">
 
                 <!-- AREA DE SEGURANCA -->
                 <div class="absolute inset-0 pointer-events-none artboard-outline-bleed"

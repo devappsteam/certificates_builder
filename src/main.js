@@ -1,13 +1,24 @@
 import './assets/main.css';
 import Alpine from 'alpinejs';
+import 'overlayscrollbars/overlayscrollbars.css';
+import { OverlayScrollbars, ClickScrollPlugin } from 'overlayscrollbars';
+
+OverlayScrollbars.plugin(ClickScrollPlugin);
+
+OverlayScrollbars(document.body, {
+  scrollbars: {
+    clickScroll: true,
+  },
+});
 
 document.addEventListener('alpine:init', () => {
   Alpine.data('artboard', () => ({
+    artboard: document.querySelector('[data-artboard]'),
     zoom: 100,
     showGrid: false,
     showBleed: true,
     showSafe: true,
-    activeMenu: 'elements',
+    activeMenu: 'background',
     selectedElement: null,
     resizing: null,
     startResize: { x: 0, y: 0, width: 0, height: 0 },
@@ -16,12 +27,12 @@ document.addEventListener('alpine:init', () => {
     appliedFonts: new Set(),
     availableFonts: [],
     fontApiKey: 'AIzaSyAOPS8SX3QZg4GEsPAqKFwNw0Yv4_qCUcU', // Chave API do Google Fonts
-    
+
     // Constantes para dimensões do artboard
     ARTBOARD_WIDTH: 1123,
     ARTBOARD_HEIGHT: 794,
     ARTBOARD_PADDING: 24, // Margem de segurança
-    
+
     // Propriedades para drag and drop
     dragging: null,
     dragOffset: { x: 0, y: 0 },
@@ -62,20 +73,23 @@ document.addEventListener('alpine:init', () => {
       if (this.zoom > 25) {
         this.zoom -= 25;
       }
+      this.setZoomStyle();
     },
 
     increaseZoom() {
       if (this.zoom < 200) {
         this.zoom += 25;
       }
+      this.setZoomStyle();
     },
 
     fitToScreen() {
       this.zoom = 100;
+      this.setZoomStyle();
     },
 
-    get zoomStyle() {
-      return `transform: scale(${this.zoom / 100})`;
+    setZoomStyle() {
+      this.artboard.style.transform = `scale(${this.zoom / 100})`;
     },
 
     toggleMenu(menu) {
@@ -95,6 +109,12 @@ document.addEventListener('alpine:init', () => {
         value: item.editable ? 'Novo texto' : `{{${item.type}}}`,
         style: { ...(this.defaultStyle || {}), ...(item.style || {}) }
       });
+    },
+
+    addBackground(bgPath) {
+      if (bgPath) {
+        this.artboard.style.backgroundImage = `url('/images/backgrounds/${bgPath}.jpg')`;
+      }
     },
 
     updateContent(index, event) {
@@ -132,11 +152,11 @@ document.addEventListener('alpine:init', () => {
 
     handleKeyDown(index, event) {
       if (this.elements[index].locked) return;
-      
+
       const step = event.shiftKey ? 10 : 1;
       let newStyle = { ...this.elements[index].style };
-      
-      switch(event.key) {
+
+      switch (event.key) {
         case 'ArrowUp':
           event.preventDefault();
           newStyle.top = Math.max(0, parseInt(newStyle.top) - step) + 'px';
@@ -161,7 +181,7 @@ document.addEventListener('alpine:init', () => {
           }
           break;
       }
-      
+
       this.elements[index].style = newStyle;
     },
 
@@ -169,57 +189,57 @@ document.addEventListener('alpine:init', () => {
     onMouseDown(index, event) {
       // Verifica se o elemento está bloqueado
       if (this.elements[index].locked) return;
-      
+
       // Se for um clique em elemento editável, não arrasta
       if (event.target.contentEditable === 'true') return;
-      
+
       // Só processa clique esquerdo (button 0)
       if (event.button !== 0) return;
-      
+
       event.preventDefault();
       event.stopPropagation();
-      
+
       this.isDragging = true;
       this.dragging = index;
       this.selectedElement = index;
-      
+
       const artboard = event.target.closest('[data-artboard]');
       const artboardRect = artboard.getBoundingClientRect();
       const elementWrapper = event.target.closest('.element-wrapper');
       const elementRect = elementWrapper.getBoundingClientRect();
-      
+
       // Calcula o fator de zoom atual
       const zoomFactor = this.zoom / 100;
-      
+
       // Calcula posições considerando o zoom
       const startX = event.clientX;
       const startY = event.clientY;
       const startLeft = parseInt(this.elements[index].style.left) || 0;
       const startTop = parseInt(this.elements[index].style.top) || 0;
-      
+
       // Adiciona classe visual de arrastar
       elementWrapper.classList.add('dragging');
-      
+
       const handleMouseMove = (e) => {
         if (!this.isDragging) return;
-        
+
         // Calcula o delta considerando o zoom
         const deltaX = (e.clientX - startX) / zoomFactor;
         const deltaY = (e.clientY - startY) / zoomFactor;
-        
+
         const newLeft = startLeft + deltaX;
         const newTop = startTop + deltaY;
-        
+
         // Calcula os limites do artboard considerando o zoom e margens de segurança
         const minX = 0;
         const minY = 0;
         const maxX = (artboardRect.width / zoomFactor) - elementRect.width;
         const maxY = (artboardRect.height / zoomFactor) - elementRect.height;
-        
+
         // Aplica restrições com limites atualizados
         const constrainedLeft = Math.max(minX, Math.min(newLeft, maxX));
         const constrainedTop = Math.max(minY, Math.min(newTop, maxY));
-        
+
         // Atualiza posição com animação suave
         this.elements[index].style = {
           ...this.elements[index].style,
@@ -228,25 +248,25 @@ document.addEventListener('alpine:init', () => {
           transition: 'none' // Remove transição durante o arrasto para movimento suave
         };
       };
-      
+
       const handleMouseUp = () => {
         this.isDragging = false;
         this.dragging = null;
-        
+
         // Restaura transição após soltar
         this.elements[index].style = {
           ...this.elements[index].style,
           transition: 'all 0.2s ease'
         };
-        
+
         // Remove classe visual
         elementWrapper.classList.remove('dragging');
-        
+
         // Remove listeners
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
       };
-      
+
       // Adiciona listeners
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
@@ -396,7 +416,7 @@ document.addEventListener('alpine:init', () => {
       const currentAlign = this.elements[index].style.textAlign || 'left';
       const currentIndex = alignments.indexOf(currentAlign);
       const nextIndex = (currentIndex + 1) % alignments.length;
-      
+
       this.elements[index].style = {
         ...this.elements[index].style,
         textAlign: alignments[nextIndex]
@@ -412,8 +432,9 @@ document.addEventListener('alpine:init', () => {
 
     init() {
       console.log('Alpine component initialized');
-      this.loadGoogleFonts();
-      
+
+      //this.loadGoogleFonts();
+
       // Limpar seleção quando clicar fora
       document.addEventListener('click', (e) => {
         if (!e.target.closest('.element-wrapper') && !this.isDragging) {
